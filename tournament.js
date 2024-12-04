@@ -180,18 +180,15 @@ $(document).ready(function () {
   $(document).on('click', '.team', function () {
     //alert("Team Selected: ");
     // //const $matchButtons = $(this).closest('.match').find('.team-btn');
-    const $matchButtons = $(this).closest('.match').find('.team');
-    const $selectedButton = $(this);
-    const buttonId = $selectedButton.find(".seed").text().trim();
-    alert("Team Selected: " + buttonId);
+    const matchButtons = $(this).closest('.match').find('.team');
+    const selectedButton = $(this);
+    const buttonId = selectedButton.find(".seed").text().trim();
+    const matchDiv = $(this).closest(".match")
+    //alert("Team Selected: " + buttonId);
     
-    // if ($selectedButton.hasClass('selected')) {
-    //     $selectedButton.removeClass('selected');
-        
-    //     $matchButtons.removeClass('loser');
-    //     return;  
-    // }
-
+    
+    matchButtons.removeClass('winner-team');
+    selectedButton.addClass("winner-team");
     
     // $matchButtons.removeClass('selected loser');  
     // //Add to parent that has class match the following class winner-team

@@ -55,12 +55,24 @@ body { font-family: 'source sans pro', sans-serif; height: 100%; width: 100%; }
 		border: $border-size solid black;
 		position: relative;
 		z-index: 2;
+		
+    cursor: pointer;
+    
+    
+
+
+
 		span { 
 			padding-left: $font-size / 2; 
 			&:last-child { padding-right: $font-size / 2; }
 		} 
 		.score { margin-left: auto; } // Sets score to right
 		&:first-child { margin-bottom: $border-size * -1; } // Sets borders on top of eachother
+	}
+	.team:hover {
+		//transform: scale(1.05);
+		background: #272f36;
+		box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 	}
 }
 
@@ -140,7 +152,8 @@ $light-score-color-override: #9fafbf;
 		color: $light-losing-team-color;
 	}
 	.winner-top .match-top,
-	.winner-bottom .match-bottom { 
+	.winner-bottom .match-bottom
+	 { 
 		background: $light-winning-team-background;
 		color: $light-winning-team-color;
 		border-color: $light-border-main;
@@ -190,7 +203,8 @@ $dark-score-winner-color-override: #03d9ce;
 		color: $dark-losing-team-color;
 	}
 	.winner-top .match-top,
-	.winner-bottom .match-bottom { 
+	.winner-bottom .match-bottom,
+	.match .winner-team{ 
 		background: $dark-winning-team-background;
 		color: $dark-winning-team-color;
 		border-color: $dark-border-main;
