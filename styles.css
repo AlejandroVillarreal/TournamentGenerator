@@ -57,6 +57,7 @@ body {
   height: 100%;
   border: 1px solid black;
   position: relative;
+  z-index: 2;
 }
 .match .team span {
   padding-left: 8px;
@@ -94,6 +95,7 @@ body {
 }
 .match-lines.alt {
   left: -12px;
+  z-index: 1;
 }
 
 .match:nth-child(even) .match-lines .line.two {

@@ -1,7 +1,7 @@
+
 // For the theme switcher / unneeded JS
 
 $(document).ready(function () {
-
   let teamsArray = [
     { id: 18, name: "SKT" },
     { id: 7, name: "RDX" },
@@ -44,13 +44,16 @@ $(document).ready(function () {
     { id: 16, name: "ORG" },
     { id: 34, name: "VCT" },
   ];
-  var dropdown = $('#teamCount');
+  
+  var dropdown = $("#teamCount");
+  let roundNumber = 1;
   dropdown.append(new Option(2));
   dropdown.append(new Option(4));
   dropdown.append(new Option(8));
   dropdown.append(new Option(16));
   dropdown.append(new Option(32));
   
+
   $("#theme-none").click(function (e) {
     $(".theme").removeClass("theme-light");
     $(".theme").removeClass("theme-dark");
@@ -58,22 +61,28 @@ $(document).ready(function () {
   });
 
   $("#btnGenerateMatch").click(function () {
-    var numberOfTeams = $('#teamCount').val();
+    
+    var numberOfTeams = $("#teamCount").val();
     let teams = shuffleArray(teamsArray);
     try {
-        teams = teams.slice(0,Number(numberOfTeams));
-        GenerateMatch(1,teams);
-    } catch(error) {
-        alert("Not enough teams to generate the tournament");
+      
+      teams = teams.slice(0, Number(numberOfTeams));
+      GenerateMatch(roundNumber, teams);
+    } catch (error) {
+      alert("Not enough teams to generate the tournament");
     }
     
   });
   $("#btnGenerateMatch2").click(function () {
-    GenerateMatch2(2);
+    
+    let teams = teamsArray.slice(0, 16);
+    GenerateMatch(roundNumber,teams);
   });
   
-//#region Functions
-function GenerateMatch(roundNumber, teams) {
+
+
+  //#region Functions
+  function GenerateMatch(roundNumber, teams) {
     const tournamentContainer = $("#tournament-structure");
     var roundContainer = $("<div>").addClass("column one");
     if (roundNumber > 1) {
@@ -82,7 +91,8 @@ function GenerateMatch(roundNumber, teams) {
     }
 
     for (let i = 0; i < teams.length; i += 2) {
-      const matchWinner = $("<div>").addClass("match winner-top");
+
+      const matchWinner = $("<div>").addClass("match ");
 
       matchWinner.html(`
                 <div class = "match-top team">
@@ -101,11 +111,16 @@ function GenerateMatch(roundNumber, teams) {
                         <div class="line one"></div>
                         <div class="line two"></div>
                     </div>
+                <div class="match-lines alt">
+                <div class= "line one"></div>
+                </div>
                 `);
+     
       roundContainer.append(matchWinner);
     }
 
     tournamentContainer.append(roundContainer);
+    roundNumber++;
   }
   function GenerateMatch2(roundNumber) {
     //This generates the second match reducing the team number by half and takes round
@@ -161,4 +176,30 @@ function GenerateMatch(roundNumber, teams) {
     return array;
   }
   //#endregion
+
+  $(document).on('click', '.team', function () {
+    //alert("Team Selected: ");
+    // //const $matchButtons = $(this).closest('.match').find('.team-btn');
+    const $matchButtons = $(this).closest('.match').find('.team');
+    const $selectedButton = $(this);
+    const buttonId = $selectedButton.find(".seed").text().trim();
+    alert("Team Selected: " + buttonId);
+    
+    // if ($selectedButton.hasClass('selected')) {
+    //     $selectedButton.removeClass('selected');
+        
+    //     $matchButtons.removeClass('loser');
+    //     return;  
+    // }
+
+    
+    // $matchButtons.removeClass('selected loser');  
+    // //Add to parent that has class match the following class winner-team
+    // $selectedButton.addClass('selected');   
+
+    
+    // $matchButtons.not($selectedButton).addClass('loser');
+});
+
+
 });

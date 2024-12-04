@@ -22,6 +22,9 @@ $(document).ready(function() {
 		$('.theme').removeClass('theme-dark');
 		$('.theme').addClass('theme-dark-trendy');
 	});
-
+	$(document).on('click', '.team', function () {
+		alert("Team Selected: ");
+		
+	});
     
 });
