@@ -44,8 +44,9 @@ $(document).ready(function () {
     { id: 16, name: "ORG" },
     { id: 34, name: "VCT" },
   ];
-  
+  var winnersArray = [];
   var dropdown = $("#teamCount");
+  
   let roundNumber = 1;
   dropdown.append(new Option(2));
   dropdown.append(new Option(4));
@@ -65,23 +66,50 @@ $(document).ready(function () {
     var numberOfTeams = $("#teamCount").val();
     let teams = shuffleArray(teamsArray);
     try {
-      
-      teams = teams.slice(0, Number(numberOfTeams));
-      GenerateMatch(roundNumber, teams);
+      teamsArray = teamsArray.slice(0,numberOfTeams);
+      //teams = teams.slice(0, Number(numberOfTeams));
+      GenerateMatch(roundNumber, teamsArray);
     } catch (error) {
       alert("Not enough teams to generate the tournament");
     }
     
   });
   $("#btnGenerateMatch2").click(function () {
+    SelectAllWinners();
+    if(AllWinnersSelected()){
+
+        GenerateMatch(roundNumber,winnersArray);
+    } else {
+        alert("Winner is needed for every match");
+    }
     
-    let teams = teamsArray.slice(0, 16);
-    GenerateMatch(roundNumber,teams);
   });
   
 
 
   //#region Functions
+  function AllWinnersSelected(){
+    const winnerCount = $('.winner-team').length;
+    if(winnerCount == teamsArray.length/2){
+        return true;
+    } else
+    {
+        return false;
+    }
+  }
+  function SelectAllWinners(){
+    $(".match").each(function(){
+        var winnerTeam = $(this).find(".winner-team");
+        var winnerTeamId = $(winnerTeam).find(".seed").text().trim();
+        var winnerTeamName = $(winnerTeam).find(".name").text().trim();
+        var winnerTeamObj = {id: winnerTeamId, name: winnerTeamName};
+        if(winnerTeamId !== "" && winnerTeamName !=="" ){
+            winnersArray.push(winnerTeamObj);
+        }
+        
+    });
+
+  }
   function GenerateMatch(roundNumber, teams) {
     const tournamentContainer = $("#tournament-structure");
     var roundContainer = $("<div>").addClass("column one");
@@ -93,18 +121,19 @@ $(document).ready(function () {
     for (let i = 0; i < teams.length; i += 2) {
 
       const matchWinner = $("<div>").addClass("match ");
-
+        const team1 = teams[i];
+        const team2 = teams[i+1];
       matchWinner.html(`
                 <div class = "match-top team">
                 <span class="image"></span>
-                        <span class="seed">${i}</span>
-                        <span class="name">TeamName Placeholder</span>
+                        <span class="seed">${team1.id}</span>
+                        <span class="name">${team1.name}</span>
                         <span class="score">2</span>
                 </div>
                 <div class = "match-bottom team">
                 <span class="image"></span>
-                        <span class="seed">${i + 1}</span>
-                        <span class="name">TeamName Placeholder</span>
+                        <span class="seed">${team2.id}</span>
+                        <span class="name">${team2.name}</span>
                         <span class="score">2</span>
                 </div>
                 <div class="match-lines">
